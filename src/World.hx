@@ -18,12 +18,15 @@ class World extends Scene {
 	public function detectForce() {
 		if (Key.isPressed(Key.G)) {
 			this.isGravity = !isGravity;
+			return;
 		}
 		if (Key.isPressed(Key.W)) {
 			this.isWind = !isWind;
+			return;
 		}
 		if (Key.isPressed(Key.F)) {
 			this.isFloating = !isFloating;
+			return;
 		}
 	}
 }

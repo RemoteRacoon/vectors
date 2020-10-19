@@ -8,6 +8,7 @@ class Mover {
 	public var position:h3d.Vector;
 	public var radius:Float;
 
+	private var mass:Float;
 	private var velocity:h3d.Vector;
 	private var acceleration:h3d.Vector;
 	private var parent:Scene;
@@ -20,15 +21,17 @@ class Mover {
 	}
 
 	public function applyForce(force:h3d.Vector) {
+		// force.scale3(1. / mass); ???
 		this.acceleration = this.acceleration.add(force);
 	}
 
-	public function new(position:h3d.Vector, parent:Scene) {
+	public function new(position:h3d.Vector, mass:Float, parent:Scene) {
 		this.position = new Vector(position.x, position.y);
 		this.velocity = new Vector(0, 0);
 		this.acceleration = new Vector(0, 0);
 		this.parent = parent;
-		this.radius = 10;
+		this.radius = mass * 15;
+		this.mass = mass;
 	}
 
 	public function update() {
@@ -60,8 +63,9 @@ class Mover {
 	}
 
 	public function draw(g:Graphics) {
-		g.beginFill(0xF74A25);
-		g.drawCircle(this.position.x, this.position.y, this.radius, 100);
+		g.lineStyle(3, 0x111111, 0.8);
+		g.beginFill(0xF74A25, 1);
+		g.drawCircle(this.position.x, this.position.y, this.radius, 500);
 		g.endFill();
 	}
 }

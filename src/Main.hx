@@ -1,3 +1,4 @@
+import hxd.Rand;
 import hxd.res.DefaultFont;
 import h2d.Text;
 import h2d.Graphics;
@@ -10,7 +11,7 @@ typedef Floating = Vector;
 
 class Main extends App {
 	private var g:Graphics;
-	private var m:Mover;
+	private var movers:Array<Mover>;
 	private var world:World;
 	private var gravity:Gravity;
 	private var wind:Wind;
@@ -19,10 +20,9 @@ class Main extends App {
 
 	private override function init() {
 		super.init();
-		engine.backgroundColor = 0xFFFFFF;
 		initWorld();
-		g = new Graphics(s2d);
-		m = new Mover(new h3d.Vector(s2d.width / 2, 400), world);
+		initAppSettings();
+		initMovers();
 		initDebug();
 	}
 
@@ -31,18 +31,20 @@ class Main extends App {
 		world.detectForce();
 		s2d.dispose();
 		displayDebug();
-		if (world.isGravity) {
-			m.applyForce(gravity);
+		for (m in movers) {
+			if (world.isGravity) {
+				m.applyForce(gravity);
+			}
+			if (world.isFloating) {
+				m.applyForce(floating);
+			}
+			if (world.isWind) {
+				m.applyForce(wind);
+			}
+			m.update();
+			m.checkBoundaries();
+			m.draw(g);
 		}
-		if (world.isFloating) {
-			m.applyForce(floating);
-		}
-		if (world.isWind) {
-			m.applyForce(wind);
-		}
-		m.update();
-		m.checkBoundaries();
-		m.draw(g);
 	}
 
 	public function initDebug() {
@@ -58,10 +60,26 @@ class Main extends App {
 
 	public function initWorld() {
 		world = new World();
-		gravity = new Gravity(0, 0.01);
+		gravity = new Gravity(0, 0.1);
 		wind = new Wind(0.01, 0);
 		floating = new Floating(0, -0.02);
 		this.setScene(world);
+	}
+
+	public function initMovers() {
+		movers = [];
+
+		for (i in 1...20) {
+			var pos = new Vector(Random.float(0, world.width), world.height / 2);
+			var mass = Random.float(0.1, 2);
+			var m = new Mover(pos, mass, world);
+			movers.push(m);
+		}
+	}
+
+	public function initAppSettings() {
+		engine.backgroundColor = 0xFFFFFF;
+		g = new Graphics(world);
 	}
 
 	static function main() {
