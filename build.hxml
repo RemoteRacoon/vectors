@@ -1,6 +1,7 @@
 -cp src
 --library heaps
 --library hlsdl
+--library domkit
 -main Main
 --hl bin/main.hl
 --cmd hl bin/main.hl
