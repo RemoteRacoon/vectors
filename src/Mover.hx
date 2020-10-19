@@ -32,7 +32,7 @@ class Mover {
 	}
 
 	public function checkBoundaries() {
-		if (position.x + radius > parent.width - radius || position.x < 0) {
+		if (position.x + radius > parent.width || position.x - radius < 0) {
 			velocity.x *= -1;
 		}
 		if (position.y + radius > parent.height || position.y - radius < 0) {
