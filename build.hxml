@@ -1,0 +1,6 @@
+-cp src
+--library heaps
+--library hlsdl
+-main Main
+--hl bin/main.hl
+--cmd hl bin/main.hl

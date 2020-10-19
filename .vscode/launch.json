@@ -1,0 +1,11 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"cwd": "${workspaceFolder}",
+			"name": "HashLink",
+			"type": "hl",
+			"request": "launch"
+		}
+	]
+}
