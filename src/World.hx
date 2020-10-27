@@ -1,3 +1,4 @@
+import h3d.Vector;
 import sys.io.FileInput;
 import hxd.Key;
 import format.swf.Constants.FillStyleTypeId;
@@ -7,12 +8,18 @@ class World extends Scene {
 	public var isGravity:Bool;
 	public var isWind:Bool;
 	public var isFloating:Bool;
+	public var isFriction:Bool;
 
 	override public function new() {
 		super();
 		isGravity = false;
 		isWind = false;
 		isFloating = false;
+		isFriction = false;
+	}
+
+	public function getScale():Vector {
+		return new Vector(this.width, this.height);
 	}
 
 	public function detectForce() {
@@ -27,6 +34,9 @@ class World extends Scene {
 		if (Key.isPressed(Key.F)) {
 			this.isFloating = !isFloating;
 			return;
+		}
+		if (Key.isPressed(Key.R)) {
+			this.isFriction = !this.isFriction;
 		}
 	}
 }
