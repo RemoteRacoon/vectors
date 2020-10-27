@@ -68,7 +68,7 @@ class VectorApp extends Core {
 		}
 	}
 
-	static function run() {
+	public static function run() {
 		new VectorApp();
 	}
 }

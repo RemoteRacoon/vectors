@@ -38,7 +38,8 @@ class Liquid {
 	public function contains(m:Mover) {
 		var p = m.position;
 		if (Type.getClass(m) == Circle) {
-			return p.x > this.x && p.x < this.x + this.width + m.radius && p.y > this.y && p.y < this.y + this.height;
+			var radius = Reflect.getProperty(m, 'radius');
+			return p.x > this.x && p.x < this.x + this.width + radius && p.y > this.y && p.y < this.y + this.height;
 		}
 		return false;
 	}
