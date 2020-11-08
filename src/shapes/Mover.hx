@@ -19,6 +19,8 @@ interface Mover {
 }
 
 class PhysicsCalcs {
+	public static var G:Float = 9.8;
+
 	public static function calcFriction(m:Mover):h3d.Vector {
 		var c = 0.008; // coefficient of friction
 		var normal = 1; // normal force (this simpliest case is mg if it's collinear to the gravity vector)
@@ -46,6 +48,27 @@ class PhysicsCalcs {
 		if (vec.x > value || vec.y > value) {
 			m.velocity.x = value;
 			m.velocity.y = value;
+		}
+	}
+
+	public static function attract(m_self:Mover, m:Mover) {
+		var dir = (m_self.position.sub(m.position));
+
+		var distance = dir.length();
+
+		if (distance != 0) {
+			if (distance < 5) {
+				distance = 5;
+			}
+			if (distance > 25) {
+				distance = 25;
+			}
+			dir.normalize();
+			if (dir.length() != 0) {
+				var strength = (PhysicsCalcs.G * m_self.mass * m.mass) / (distance * distance);
+				dir.scale3(strength);
+				m.applyForce(dir);
+			}
 		}
 	}
 }

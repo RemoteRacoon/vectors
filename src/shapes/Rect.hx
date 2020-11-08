@@ -1,5 +1,6 @@
 package shapes;
 
+import h3d.Vector;
 import h2d.Scene;
 import h2d.Graphics;
 
@@ -21,6 +22,9 @@ class Rect implements Mover {
 		height = h;
 		parent = par;
 		position = pos;
+		velocity = new Vector(0, 0);
+		acceleration = new Vector(0, 0);
+		mass = Random.float(0.7, 2);
 	}
 
 	// simple boundaries detection without rotation
@@ -31,17 +35,17 @@ class Rect implements Mover {
 			velocity.x *= -1;
 			position.x = w - width;
 		}
-		if (position.x < width) {
+		if (position.x < 0) {
 			velocity.x *= -1;
-			position.x = width;
+			position.x = 0;
 		}
 		if (position.y > h - height) {
 			velocity.y *= -1;
 			position.y = h - height;
 		}
-		if (position.y < height) {
+		if (position.y < 0) {
 			velocity.y *= -1;
-			position.y = height;
+			position.y = 0;
 		}
 	};
 

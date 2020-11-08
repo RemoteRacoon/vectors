@@ -2,6 +2,7 @@
 --library heaps
 --library hlsdl
 --library random
+-D resourcePath=res
 -main Main
 --hl bin/main.hl
 --cmd hl bin/main.hl

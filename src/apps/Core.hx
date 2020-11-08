@@ -7,9 +7,10 @@ import hxd.App;
 import h2d.Text;
 import h2d.Graphics;
 
-typedef Gravity = h3d.Vector;
-typedef Wind = h3d.Vector;
-typedef Floating = h3d.Vector;
+using shapes.Mover.PhysicsCalcs;
+using World.Gravity;
+using World.Floating;
+using World.Wind;
 
 class Core extends App {
 	private var g:Graphics;
@@ -28,6 +29,38 @@ class Core extends App {
 		initMovers();
 	}
 
+	public function applyPhysicsToMovers() {
+		for (m in movers) {
+			if (world.isGravity) {
+				var g = new Gravity(0, 0.1 * m.mass);
+				m.applyForce(g);
+			}
+			if (world.isFloating) {
+				m.applyForce(floating);
+			}
+			if (world.isWind) {
+				m.applyForce(wind);
+			}
+			if (world.isFriction) {
+				m.applyForce(m.calcFriction());
+			}
+		}
+	}
+
+	override function update(dt:Float) {
+		super.update(dt);
+		s2d.dispose();
+		world.detectForce();
+		displayDebug();
+		applyPhysicsToMovers();
+
+		for (m in movers) {
+			m.update();
+			m.checkBoundaries();
+			m.draw(g);
+		}
+	}
+
 	public function initMovers():Void {}
 
 	public function initAppSettings() {
@@ -38,7 +71,7 @@ class Core extends App {
 	public function initWorld() {
 		world = new World();
 		gravity = new Gravity(0, 0.1);
-		wind = new Wind(0.01, 0);
+		wind = new Wind(4, 0);
 		floating = new Floating(0, -0.02);
 		this.setScene(world);
 	}
@@ -58,6 +91,7 @@ class Core extends App {
 			+ "\nGravity: "
 			+ world.isGravity
 			+ "\nFriction: "
-			+ world.isFriction;
+			+ world.isFriction
+			+ "\n";
 	}
 }

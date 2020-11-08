@@ -1,8 +1,10 @@
-import apps.VectorApp;
-import apps.CollisionApp;
+import apps.SpaceshipApp;
+import h2d.Bitmap;
+import h2d.Graphics;
+import hxd.App;
 
-class Main {
+class Main extends App {
 	static function main() {
-		VectorApp.run();
+		SpaceshipApp.run();
 	}
 }

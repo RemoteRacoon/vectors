@@ -1,14 +1,17 @@
 import h3d.Vector;
-import sys.io.FileInput;
 import hxd.Key;
-import format.swf.Constants.FillStyleTypeId;
 import h2d.Scene;
+
+typedef Gravity = h3d.Vector;
+typedef Wind = h3d.Vector;
+typedef Floating = h3d.Vector;
 
 class World extends Scene {
 	public var isGravity:Bool;
 	public var isWind:Bool;
 	public var isFloating:Bool;
 	public var isFriction:Bool;
+	public var isAttraction:Bool;
 
 	override public function new() {
 		super();
@@ -37,6 +40,9 @@ class World extends Scene {
 		}
 		if (Key.isPressed(Key.R)) {
 			this.isFriction = !this.isFriction;
+		}
+		if (Key.isPressed(Key.A)) {
+			this.isAttraction = !this.isAttraction;
 		}
 	}
 }

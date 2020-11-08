@@ -2,13 +2,6 @@ package apps;
 
 import apps.Core.Gravity;
 import shapes.Circle;
-import shapes.Rect;
-import shapes.Mover;
-import hxd.Rand;
-import hxd.res.DefaultFont;
-import h2d.Text;
-import h2d.Graphics;
-import hxd.App;
 import h3d.Vector;
 
 using shapes.Mover.PhysicsCalcs;
@@ -24,37 +17,19 @@ class VectorApp extends Core {
 		liquid = new Liquid(scale.x / 2 - liquidW / 2, scale.y / 1.75, liquidW, liquidH);
 	}
 
-	public function applyPhysicsToMovers() {
+	override function applyPhysicsToMovers() {
+		super.applyPhysicsToMovers();
+
 		for (m in movers) {
-			if (world.isGravity) {
-				var g = new Gravity(0, 0.1 * m.mass);
-				m.applyForce(g);
-			}
-			if (world.isFloating) {
-				m.applyForce(floating);
-			}
-			if (world.isWind) {
-				m.applyForce(wind);
-			}
-			if (world.isFriction) {
-				m.applyForce(m.calcFriction());
-			}
 			if (liquid.contains(m)) {
 				m.applyForce(liquid.calculateDrag(m));
 			}
-			m.update();
-			m.checkBoundaries();
-			m.draw(g);
 		}
 	}
 
 	override function update(dt:Float) {
 		super.update(dt);
-		world.detectForce();
-		s2d.dispose();
 		liquid.display(g);
-		displayDebug();
-		applyPhysicsToMovers();
 	}
 
 	override function initMovers() {
